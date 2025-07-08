@@ -1,6 +1,15 @@
 {% extends "base.html" %}
 
 {% block conteudo %}
+<div class="login-container">
+        <h2>Entrar no ChronusPlanner</h2>
+        <form method="POST" action="{{ url_for('login.login_view') }}">
+            <input type="email" name="email" placeholder="E-mail" required>
+            <input type="password" name="password" placeholder="Senha" required>
+            <button type="submit">Entrar</button>
+        </form>
 
-LOGIN
+         <p class="login-footer">Ainda não tem conta? <a href="{{ url_for('login.register') }}">Cadastre-se</a></p>
+    </div>
+    </div>
 {% endblock conteudo %}

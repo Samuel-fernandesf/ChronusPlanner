@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+    <div class="login-container">
+        <h2>Criar Conta no ChronusPlanner</h2>
+        <form method="POST" action="{{ url_for('login.register') }}">
+            <div class="form-group">
+                <label for="nome">Nome</label>
+                <input type="text" id="nome" name="nome" required class="form-input">
+            </div>
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" name="email" required class="form-input">
+            </div>
+            <div class="form-group">
+                <label for="password">Senha</label>
+                <input type="password" id="password" name="password" required class="form-input">
+            </div>
+            <div class="form-group">
+                <label for="confirm_password">Confirmar Senha</label>
+                <input type="password" id="confirm_password" name="confirm_password" required class="form-input">
+            </div>
+            <button type="submit" class="form-button">Registrar</button>
+        </form>
+
+        <p class="login-footer">Já tem conta? <a href="{{ url_for('login.login_user') }}">Entrar</a></p>
+    </div>
+{% endblock conteudo %}

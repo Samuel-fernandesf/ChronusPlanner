@@ -1,22 +1,37 @@
 import os
 from flask import Flask
+from flask_login import LoginManager
 from .routes.cadastro_bp import cadastro
 from .routes.login_bp import login
 from .routes.home_bp import home
 from .utils.db import db
+from app.models.user import User
 
+# Instância principal da aplicação
 app = Flask(__name__)
 
-#Chaves de Configuração armazenadas em um arquivo .env
+# Chave secreta e configuração do banco
 app.config['SECRET_KEY'] = 'fa178b6dd2db59558e923a19f479b819e38f5b51933a7ca0c9c3055e76fc5ca9'
 caminho = os.path.abspath('app/database/chronus.sqlite')
 app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{caminho}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-#Inicializando o banco de dados
+# Inicialização do banco de dados
 db.init_app(app)
 
-#Ligando as rotas ao arquivo principal (registrando)
+# Configuração do Flask-Login
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+# Redirecionamento padrão se o usuário não estiver logado
+login_manager.login_view = "login.login_view"  # nome_da_blueprint.nome_da_view
+
+# Callback para carregar o usuário logado
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+# Registro dos blueprints (rotas)
 app.register_blueprint(login)
 app.register_blueprint(cadastro, url_prefix='/cadastro')
 app.register_blueprint(home, url_prefix='/home')
