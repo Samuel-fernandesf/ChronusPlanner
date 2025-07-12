@@ -1,15 +1,44 @@
 {% extends "base.html" %}
 
 {% block conteudo %}
-<div class="login-container">
-        <h2>Entrar no ChronusPlanner</h2>
-        <form method="POST" action="{{ url_for('login.login_view') }}">
-            <input type="email" name="email" placeholder="E-mail" required>
-            <input type="password" name="password" placeholder="Senha" required>
-            <button type="submit">Entrar</button>
-        </form>
 
-         <p class="login-footer">Ainda não tem conta? <a href="{{ url_for('login.register') }}">Cadastre-se</a></p>
-    </div>
-    </div>
+<div class="container mt-5" style="max-width: 400px;">
+    <h2 class="mb-4 text-center">Login</h2>
+
+    <form method="POST" action="{{ url_for('login.login_usuario') }}">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class='alert alert-{{category}} alert-dismissible fade-show role='alert''>
+                            <button
+                            type="button"
+                            class="btn btn-close"
+                            data-bs-dismiss="alert"
+                            aria-label="Close">
+                            </button>
+                            {{message}}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+        <div class="mb-3">
+            <label for="email" class="form-label">E-mail</label>
+            <input type="email" class="form-control" id="email" name="email"  minlength="5" maxlength="120" placeholder="Digite seu e-mail" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="senha" class="form-label">Senha</label>
+            <input type="password" class="form-control" id="senha" name="senha"  minlength="8" maxlength="20" placeholder="Digite sua senha" required>
+        </div>
+
+        <button type="submit" class="btn btn-success w-100">Entrar</button>
+    </form>
+
+    <p class="mt-3 text-center">
+        Ainda não tem conta? <a href="{{ url_for('cadastro.cadastro_usuario') }}">Cadastre-se</a>
+    </p>
+
+</div>
+
 {% endblock conteudo %}
