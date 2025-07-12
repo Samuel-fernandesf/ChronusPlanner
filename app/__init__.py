@@ -1,11 +1,11 @@
 import os
 from flask import Flask
-from flask_login import LoginManager
 from .routes.cadastro_bp import cadastro
 from .routes.login_bp import login
 from .routes.home_bp import home
+from .utils.extensions import login_manager
 from .utils.db import db
-from app.models.user import User
+from .models.user import User
 
 # Instância principal da aplicação
 app = Flask(__name__)
@@ -19,12 +19,13 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # Inicialização do banco de dados
 db.init_app(app)
 
-# Configuração do Flask-Login
-login_manager = LoginManager()
+# Inicializando extensão
 login_manager.init_app(app)
 
 # Redirecionamento padrão se o usuário não estiver logado
-login_manager.login_view = "login.login_view"  # nome_da_blueprint.nome_da_view
+login_manager.login_view = "login.login_usuario"
+login_manager.login_message = 'Por favor, realize o login!'
+login_manager.login_message_category = 'danger'
 
 # Callback para carregar o usuário logado
 @login_manager.user_loader
