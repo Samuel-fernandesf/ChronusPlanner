@@ -1,20 +1,17 @@
-from app.utils.db import db
 from app.models.user import User
+from app.utils.db import db
 
 class UserDAO:
 
-    @staticmethod
-    def create_user(nome, email, password):
-        user = User(nome=nome, email=email)
-        user.set_password(password)
+    def criar_usuario(self, user):
         db.session.add(user)
         db.session.commit()
         return user
 
-    @staticmethod
-    def get_user_by_email(email):
-        return User.query.filter_by(email=email).first()
-
-    @staticmethod
-    def get_user_by_id(user_id):
-        return User.query.get(user_id)
+    def buscar_por_id(self, id):
+        user = User.query.filter_by(id=id).first()
+        return user
+    
+    def buscar_por_email(self, email):
+        user = User.query.filter_by(email=email).first()
+        return user
