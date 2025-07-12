@@ -15,22 +15,27 @@
 
             <a class="navbar-brand fs-3 text-white" href="#"><i class="bi bi-calendar3"></i> Project Chronus</a>
 
-           
-            <ul class="navbar-nav mx-auto d-flex flex-row gap-3">
-                <li class="nav-item">
-                    <a class="nav-link fs-5 text-white-50" aria-current="page" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link fs-5 text-white-50" aria-current="page" href="#">Calendário</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link fs-5 text-white-50" aria-current="page" href="#">Tarefas</a>
-                </li>
-            </ul>
-
-            <div class="d-flex">
-                <a href="{{ url_for('login.login_view') }}" class="btn btn-success border-white border-2 rounded-3 px-4 py-2 fs-5">Entrar</a>
-            </div>
+           {% if current_user.is_authenticated %}
+                <ul class="navbar-nav mx-auto d-flex flex-row gap-3">
+                    <li class="nav-item">
+                        <a class="nav-link fs-5 text-white-50" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fs-5 text-white-50" aria-current="page" href="#">Calendário</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fs-5 text-white-50" aria-current="page" href="#">Tarefas</a>
+                    </li>
+                </ul>
+                
+                <div class="d-flex">
+                    <a href="{{ url_for('login.logout_usuario') }}" class="btn btn-danger border-white border-2 rounded-3 px-4 py-2 fs-5">Sair</a>
+                </div>
+            {% else %}
+                <div class="d-flex">
+                    <a href="{{ url_for('login.login_usuario') }}" class="btn btn-success border-white border-2 rounded-3 px-4 py-2 fs-5">Entrar</a>
+                </div>
+            {% endif %}
         </div>
     </nav>
 
