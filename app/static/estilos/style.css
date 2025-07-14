@@ -7,3 +7,41 @@ body{
 .navbar{
     background-color: #1f3757;
 }
+
+/* CALENDAR */  
+.fc-daygrid-day:hover {
+    background-color: #c0d9f1;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.fc-event {
+    background-color: #162b4d; 
+    border: none;
+    color: white;
+    font-weight: 500;
+    padding: 2px 4px;
+    border-radius: 4px;
+}
+
+.fc-col-header-cell {
+    background-color: #1f3757;
+    color: white;
+}
+
+.fc-col-header-cell a {
+    color: #dbe9f5;
+    text-decoration: none;
+    font-weight: bold;  
+}
+
+.fc-col-header-cell a:hover {
+    text-decoration: underline;
+    opacity: 0.9;
+}
+
+.fc-daygrid-day-number {
+    color: #162b4d;
+    font-weight: bold;
+    text-decoration: none;
+}
