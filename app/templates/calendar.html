@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class='alert alert-{{category}} alert-dismissible fade-show role='alert''>
+                <button
+                type="button"
+                class="btn btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Close">
+                </button>
+                {{message}}
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+
+<div class="container mt-5 mb-5 w-75">
+    <div id="calendar"></div>
+</div>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" id="btnNovoEvento">
+  Novo Evento
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Novo Evento</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+       
+        <form id="formEvento">
+
+            <div class="mb-3">
+                <label for="titulo" class="form-label">Título</label>
+                <input type="text" class="form-control" id="titulo" placeholder="Digite o título" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="descricao" class="form-label">Descrição</label>
+                <textarea class="form-control" id="descricao" rows="3" placeholder="Descreva o evento (opcional)"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="data" class="form-label">Data</label>
+                <input type="date" class="form-control" id="data" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="horario_inicio" class="form-label">Horário de Início</label>
+                <input type="time" class="form-control" id="horario_inicio" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="horario_fim" class="form-label">Horário de Fim</label>
+                <input type="time" class="form-control" id="horario_fim" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Salvar</button>
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock conteudo %}
