@@ -1,4 +1,5 @@
-from utils.db import db
+from app.utils.db import db
+from datetime import datetime
 
 class Event(db.Model):
     __tablename__ = 'event'
@@ -9,14 +10,13 @@ class Event(db.Model):
     data = db.Column(db.Date, nullable=False)
     horario_inicio = db.Column(db.Time, nullable=False)
     horario_fim = db.Column(db.Time, nullable=False)
-    criado_em = db.Column(db.Datetime, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, unique=True)
+    criado_em = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     
-    def __init__(self, titulo, descricao, data, horario_inicio, horario_fim, criado_em, user_id):
+    def __init__(self, titulo, descricao, data, horario_inicio, horario_fim, user_id):
         self.titulo = titulo
         self.descricao = descricao
         self.data = data
         self.horario_inicio = horario_inicio
         self.horario_fim = horario_fim
-        self.criado_em = criado_em
         self.user_id = user_id
