@@ -1,53 +1,53 @@
 {% extends "base.html" %}
 
 {% block conteudo %}
+<div class="d-flex flex-column justify-content-center align-items-center" style="height: 100vh; background-color: #20232A; color: white;">
+    <div class="p-4 rounded" style="max-width: 400px; width: 100%; background-color: #2C2F36; box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);">
+        <h2 class="mb-3 text-center" style="color: white;">Login</h2>
 
-<div class="container mt-5" style="max-width: 400px;">
-    <h2 class="mb-3 text-center">Login</h2>
-
-    <form method="POST" action="{{ url_for('login.login_usuario') }}">
+        <form method="POST" action="{{ url_for('login.login_usuario') }}">
 
             {{ form.hidden_tag() }}
 
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                     {% for category, message in messages %}
-                        <div class='alert alert-{{category}} alert-dismissible fade-show role='alert''>
-                            <button
-                            type="button"
-                            class="btn btn-close"
-                            data-bs-dismiss="alert"
-                            aria-label="Close">
-                            </button>
-                            {{message}}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     {% endfor %}
                 {% endif %}
             {% endwith %}
 
-        <div class="mb-3">
-            {{ form.email.label(class="form-label") }}
-            {{ form.email(class="form-control", placeholder="Digite seu e-mail") }}
-            {% for error in form.email.errors %}
-                <div class="text-danger">{{ error }}</div>
-            {% endfor %}
-        </div>
+            <div class="mb-3">
+                {{ form.email.label(class="form-label") }}
+                {{ form.email(class="form-control", placeholder="Digite seu e-mail") }}
+                {% for error in form.email.errors %}
+                    <div class="text-danger">{{ error }}</div>
+                {% endfor %}
+            </div>
 
-        <div class="mb-3">
-            {{ form.senha.label(class="form-label") }}
-            {{ form.senha(class="form-control", placeholder="Digite sua senha") }}
-            {% for error in form.senha.errors %}
-                <div class="text-danger">{{ error }}</div>
-            {% endfor %}
-        </div>
+            <div class="mb-3">
+                {{ form.senha.label(class="form-label") }}
+                {{ form.senha(class="form-control", placeholder="Digite sua senha") }}
+                {% for error in form.senha.errors %}
+                    <div class="text-danger">{{ error }}</div>
+                {% endfor %}
+            </div>
 
-        {{ form.submit(class="btn btn-success w-100") }}
-    </form>
+            <button type="submit" class="btn w-100" style="background-color: #3B82F6; color: white; border: none;">
+                Entrar
+            </button>   
+        </form>
 
-    <p class="mt-3 text-center">
-        Ainda não tem conta? <a href="{{ url_for('cadastro.cadastro_usuario') }}">Cadastre-se</a>
-    </p>
+        <p class="mt-3 text-center text-light">
+            Ainda não tem uma conta?<a href="{{ url_for('cadastro.cadastro_usuario') }}" class="text-primary">Cadastre-se</a>
+        </p>
+    </div>
 
+    <footer class="mt-3 text-muted" style="font-size: 0.85em; opacity: 0.6;">
+        A StudySphere feature.
+    </footer>
 </div>
-
 {% endblock conteudo %}

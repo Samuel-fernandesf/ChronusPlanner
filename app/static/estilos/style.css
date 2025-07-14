@@ -1,22 +1,29 @@
 /* BODY */
-body{
-    background-color: #F1FAEE;
+body {
+    background-color: #20232A;
+    color: #F9FAFB;  /* Texto geral mais legível no fundo escuro */
 }
 
 /* NAVBAR */
-.navbar{
-    background-color: #1f3757;
+.navbar {
+    background-color: #1F3757;
 }
 
 /* CALENDAR */  
+
+.fc {
+    background-color: #20232A; /* Fundo do calendário igual ao body */
+    color: #F9FAFB;  /* Texto padrão do calendário */
+}
+
 .fc-daygrid-day:hover {
-    background-color: #c0d9f1;
+    background-color: #2C2F36;  /* Um tom mais claro que o fundo para hover */
     cursor: pointer;
     transition: background-color 0.2s ease;
 }
 
 .fc-event {
-    background-color: #162b4d; 
+    background-color: #3B82F6;  /* Azul de destaque do botão */
     border: none;
     color: white;
     font-weight: 500;
@@ -25,14 +32,14 @@ body{
 }
 
 .fc-col-header-cell {
-    background-color: #1f3757;
-    color: white;
+    background-color: #1F3757;
+    color: #FBBF24;  /* Dourado da identidade visual */
 }
 
 .fc-col-header-cell a {
-    color: #dbe9f5;
+    color: #FBBF24;
     text-decoration: none;
-    font-weight: bold;  
+    font-weight: bold;
 }
 
 .fc-col-header-cell a:hover {
@@ -41,7 +48,7 @@ body{
 }
 
 .fc-daygrid-day-number {
-    color: #162b4d;
+    color: #F9FAFB;
     font-weight: bold;
     text-decoration: none;
 }

@@ -6,6 +6,7 @@ from .routes.home_bp import home
 from .utils.extensions import login_manager
 from .utils.db import db
 from .models.user import User
+from .routes.splash_bp import splash
 
 # Instância principal da aplicação
 app = Flask(__name__)
@@ -32,7 +33,10 @@ login_manager.login_message_category = 'danger'
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+app.register_blueprint(splash)
+
 # Registro dos blueprints (rotas)
 app.register_blueprint(login)
 app.register_blueprint(cadastro, url_prefix='/cadastro')
 app.register_blueprint(home, url_prefix='/home')
+

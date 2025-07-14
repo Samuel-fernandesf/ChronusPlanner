@@ -7,7 +7,7 @@ from flask_login import login_user, logout_user, current_user
 login = Blueprint('login', __name__)
 userDAO = UserDAO()
 
-@login.route("/", methods=["GET", "POST"])
+@login.route("/login", methods=["GET", "POST"])
 def login_usuario():
 
     if current_user.is_authenticated:
