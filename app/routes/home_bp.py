@@ -1,12 +1,17 @@
-from flask import Blueprint, render_template, redirect, request, url_for, jsonify
+from flask import Blueprint, render_template, redirect, request, url_for, jsonify, flash
 from app.models.event import Event
+from app.models.task import Task
+from app.DAO.taskDAO import TaskDAO
 from app.DAO.eventDAO import EventDAO
+from app.forms import TaskForm
+from app.utils.db import db
 from flask_login import login_required, current_user
 from datetime import datetime
 
 
 home = Blueprint('home', __name__)
 eventoDAO = EventDAO()
+taskDAO = TaskDAO()
 
 @home.route('/')
 @login_required
@@ -120,8 +125,51 @@ def editar_excluir_evento(id):
         except Exception as erro:
             return jsonify({'status': 'error', 'message': str(erro)}), 400
 
-@home.route('/tarefas')
+@home.route('/tarefas', methods=['GET', 'POST'])
 @login_required
 def tarefas():
-    return render_template('tasks.html')
+    form = TaskForm()
+
+    if form.validate_on_submit():
+        titulo=form.titulo.data
+        descricao=form.descricao.data
+        data_limite=form.data_limite.data
+        user_id=current_user.id
+
+        nova_task = Task(titulo=titulo, descricao=descricao, data_limite=data_limite, user_id=user_id)
+        taskDAO.criar_tarefa(nova_task)
+
+        return redirect(url_for('home.tarefas'))
+
+    tasks = taskDAO.buscar_por_usuario(current_user.id)
+
+    return render_template('tasks.html', form=form, tasks=tasks)
+
+@home.route('/tarefa/<int:id>/concluir', methods=['POST'])
+@login_required
+def concluir_tarefa(id):
+    taskDAO.concluir_tarefa(id)
+    return redirect(url_for('home.tarefas'))
+
+@home.route('/tarefa/editar/<int:id>/', methods=['GET', 'POST'])
+@login_required
+def editar_tarefa(id):
+    task = Task.query.get(id)
+
+    form = TaskForm(obj=task)
+
+    if form.validate_on_submit():
+        form.populate_obj(task)
+        db.session.commit()
+        return redirect(url_for('home.tarefas'))
+    
+    tasks = taskDAO.buscar_por_usuario(current_user.id)
+
+    return render_template('tasks.html', tasks=tasks, task=task, form=form, editar=True)
+
+@home.route('/tarefa/<int:id>/excluir', methods=['POST'])
+@login_required
+def excluir_tarefa(id):
+    taskDAO.excluir(id)
+    return redirect(url_for('home.tarefas'))
 

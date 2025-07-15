@@ -2,17 +2,165 @@
 
 {% block conteudo %}
 <div class="container py-5" style="max-width: 600px;">
-
+    
     <h2 class="text-center mb-4" style="color: white;">Minhas Tarefas</h2>
-
-    <ul class="list-group mb-4">
-    </ul>
-
-    <button class="btn btn-primary w-100 mb-3">Adicionar Nova Tarefa</button>
-
-    <footer class="text-center text-muted mt-3" style="font-size: 0.85em; opacity: 0.6;">
-        A StudySphere feature.
-    </footer>
+    
+    <button type="button" class="btn btn-primary w-100 mb-3" data-bs-toggle="modal" data-bs-target="#taskModal">Adicionar Nova Tarefa</button>
 
 </div>
+
+<div class='container-fluid w-75'>
+     <table class="table table-striped table-hover table-bordered align-middle text-center">
+        <thead class="table-dark">
+            <tr>
+            <th>Título</th>
+            <th>Descrição</th>
+            <th>Data Limite</th>
+            <th>Status</th>
+            <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+            <tr class="{{ 'table-success' if task.concluido else '' }}">
+                <td>{{ task.titulo }}</td>
+                <td>{{ task.descricao or '-' }}</td>
+                <td>{{ task.data_limite.strftime('%d/%m/%Y') }}</td>
+                <td>
+                {% if task.concluido %}
+                    <span class="badge bg-success">Concluída ✔</span>
+                {% else %}
+                    <span class="badge bg-secondary">Pendente</span>
+                {% endif %}
+                </td>
+                <td>
+                {% if not task.concluido %}
+                <form action="{{ url_for('home.concluir_tarefa', id=task.id) }}" method="POST" class="d-inline">
+                    <button type="submit" class="btn btn-sm btn-outline-success" title="Marcar como concluída">
+                        Concluir
+                    </button>
+                </form>
+                {% endif %}
+
+                <a href="{{ url_for('home.editar_tarefa', id=task.id) }}" class="btn btn-sm btn-primary" title="Editar tarefa">
+                    Editar
+                </a>
+
+                <form action="{{ url_for('home.excluir_tarefa', id=task.id) }}" method="POST" class="d-inline">
+                    <button type="submit" class="btn btn-sm btn-danger" title="Excluir tarefa">
+                        Excluir
+                    </button>
+                </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="5" class="text-center">Nenhuma tarefa encontrada.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+<div class="modal fade" id="taskModal" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <form method="POST" action="{{ url_for('home.tarefas') }}">
+        {{ form.hidden_tag() }}
+
+        <div class="modal-header">
+          <h5 class="modal-title" id="taskModalLabel">Nova Tarefa</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+
+        <div class="modal-body">
+
+          <div class="mb-3">
+            {{ form.titulo.label(class="form-label") }}
+            {{ form.titulo(class="form-control", placeholder="Digite o título") }}
+            {% for error in form.titulo.errors %}
+              <div class="text-danger">{{ error }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="mb-3">
+            {{ form.descricao.label(class="form-label") }}
+            {{ form.descricao(class="form-control", rows=3, placeholder="Descreva o evento (opcional)") }}
+            {% for error in form.descricao.errors %}
+              <div class="text-danger">{{ error }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="mb-3">
+            {{ form.data_limite.label(class="form-label") }}
+            {{ form.data_limite(class="form-control") }}
+            {% for error in form.data_limite.errors %}
+              <div class="text-danger">{{ error }}</div>
+            {% endfor %}
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          {{ form.submit(class="btn btn-primary w-100") }}
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+{% if editar %}
+<div class="modal fade show" id="editTaskModal" tabindex="-1" aria-labelledby="editTaskModalLabel" aria-modal="true" role="dialog" style="display: block; background-color: rgba(0,0,0,0.5);">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <form method="POST" action="{{ url_for('home.editar_tarefa', id=task.id) }}">
+        {{ form.hidden_tag() }}
+
+        <div class="modal-header">
+          <h5 class="modal-title" id="editTaskModalLabel">Editar Tarefa</h5>
+          <a href="{{ url_for('home.tarefas') }}" class="btn-close" aria-label="Fechar"></a>
+        </div>
+
+        <div class="modal-body">
+
+          <div class="mb-3">
+            {{ form.titulo.label(class="form-label") }}
+            {{ form.titulo(class="form-control") }}
+            {% for error in form.titulo.errors %}
+              <div class="text-danger">{{ error }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="mb-3">
+            {{ form.descricao.label(class="form-label") }}
+            {{ form.descricao(class="form-control", rows=3) }}
+            {% for error in form.descricao.errors %}
+              <div class="text-danger">{{ error }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="mb-3">
+            {{ form.data_limite.label(class="form-label") }}
+            {{ form.data_limite(class="form-control", value=form.data_limite.data.strftime('%Y-%m-%d') if form.data_limite.data else '') }}
+            {% for error in form.data_limite.errors %}
+              <div class="text-danger">{{ error }}</div>
+            {% endfor %}
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          {{ form.submit(class="btn btn-primary w-100") }}
+          <a href="{{ url_for('home.tarefas') }}" class="btn btn-secondary">Fechar</a>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+{% endif %}
+
 {% endblock conteudo %}

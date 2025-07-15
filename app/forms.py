@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField,  PasswordField, SubmitField, BooleanField, EmailField, IntegerField, RadioField, SelectField, DateField, TextAreaField, FieldList, FormField
-from wtforms.validators import DataRequired, NumberRange, Length, Email, EqualTo, ValidationError
+from wtforms.validators import DataRequired, NumberRange, Length, Email, EqualTo, ValidationError, Optional
 from app.models.user import User
 
 #FORMULÁRIO DO CADASTRO
@@ -27,3 +27,10 @@ class Login_Formulario(FlaskForm):
     senha = PasswordField('Senha',
                             validators=[DataRequired(), Length(min=8, max=50)])
     submit = SubmitField('Entrar')
+
+#FORMULARIO DA TASK
+class TaskForm(FlaskForm):
+    titulo = StringField('Título', validators=[DataRequired(), Length(max=100)])
+    descricao = TextAreaField('Descrição', validators=[Optional(), Length(max=500)])
+    data_limite = DateField('Data Limite', validators=[DataRequired()], format='%Y-%m-%d')
+    submit = SubmitField('Salvar')
