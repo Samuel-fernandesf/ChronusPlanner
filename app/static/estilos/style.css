@@ -85,3 +85,60 @@ body {
 .modal-content textarea::placeholder {
   color: #9CA3AF;
 }
+
+/* Cadastro e Login Formulários */
+
+.form-container {
+    background-color: #2C2F36;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(251, 191, 36, 0.15);
+    color: white;
+}
+
+.form-container h2 {
+    color: white;
+    font-weight: bold;
+}
+
+.form-control {
+    background-color: #1F2937;
+    border: 1px solid #4B5563;
+    color: #F9FAFB;
+    border-radius: 8px;
+}
+
+.form-control::placeholder {
+    color: #9CA3AF;
+}
+
+.btn-primary,
+.btn-success {
+    background-color: #3B82F6;
+    border: none;
+}
+
+.btn-primary:hover,
+.btn-success:hover {
+    background-color: #2563EB;
+}
+
+.text-danger {
+    font-size: 0.9em;
+}
+
+/* Link de Login/Cadastro */
+.form-container a {
+    color: #3B82F6;
+    text-decoration: none;
+}
+
+.form-container a:hover {
+    text-decoration: underline;
+}
+
+/* Flash Messages */
+.alert {
+    font-size: 0.9em;
+}
+
