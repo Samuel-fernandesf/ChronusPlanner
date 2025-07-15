@@ -18,18 +18,20 @@
     {% endif %}
 {% endwith %}
 
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" id="btnNovoEvento">
-  Novo Evento
-</button>
+<div class="container py-5 w-25">
 
+    <h2 class="text-center mb-4" style="color: white;">Meus Eventos</h2>
 
-<div class="container mt-5 mb-5 w-75">
+    <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#staticBackdrop" id="btnNovoEvento">+ Novo Evento
+    </button>
+
+</div>
+
+<div class="container mb-5 w-75">
     <div id="calendar"></div>
 </div>
 
-
-<!-- Modal -->
+<!-- Modal de Formulário do Evento -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable">
     <div class="modal-content">
@@ -43,7 +45,7 @@
 
             <div class="mb-3">
                 <label for="titulo" class="form-label">Título</label>
-                <input type="text" class="form-control" id="titulo" placeholder="Digite o título" required>
+                <input type="text" class="form-control" id="titulo" placeholder="Digite o título" required=required>
             </div>
 
             <div class="mb-3">
@@ -71,6 +73,36 @@
 
       </div>
       <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Visualização de Evento -->
+<div class="modal fade" id="modalVisualizarEvento" tabindex="-1" aria-labelledby="visualizarEventoLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="visualizarEventoLabel">Detalhes do Evento</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body">
+
+        <p><strong>Título:</strong> <span id="visualizarTitulo"></span></p>
+
+        <p><strong>Descrição:</strong> <span id="visualizarDescricao"></span></p>
+
+        <p><strong>Data:</strong> <span id="visualizarData"></span></p>
+
+        <p><strong>Início:</strong> <span id="visualizarInicio"></span></p>
+
+        <p><strong>Fim:</strong> <span id="visualizarFim"></span></p>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" id="btnExcluirEvento">Excluir</button>
+        <button type="button" class="btn btn-warning" id="btnEditarEvento">Editar</button>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
       </div>
     </div>

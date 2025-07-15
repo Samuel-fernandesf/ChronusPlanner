@@ -15,3 +15,16 @@ class UserDAO:
     def buscar_por_email(self, email):
         user = User.query.filter_by(email=email).first()
         return user
+    
+    def editar(self, user):
+        userObj = User.query.filter_by(id=user.id).first()
+
+        userObj.nome = user.nome
+        db.session.commit()
+        return userObj
+
+    def excluir(self, id):
+       user = User.query.filter_by(id=id).first()
+       db.session.delete(user)
+       db.session.commit()
+       return user

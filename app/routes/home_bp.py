@@ -57,8 +57,8 @@ def adicionar_evento():
         except Exception as erro:
             return jsonify({'status': 'error', 'message': str(erro)}), 400
 
-    # Se não é post, logo é get. Serve para listar os eventos em formato json    
-    else:
+    # Serve para listar os eventos em formato json    
+    elif request.method == 'GET':
         eventos = eventoDAO.buscar_por_usuario(current_user.id)
         lista = []
 
@@ -82,6 +82,43 @@ def adicionar_evento():
             lista.append(evento_json)
 
         return jsonify(lista)
+
+@home.route('calendario/api/eventos/<int:id>', methods=['PUT', 'DELETE'])
+@login_required
+def editar_excluir_evento(id):
+    evento = eventoDAO.buscar_por_id(id)
+
+    if not evento or evento.user_id != current_user.id:
+        return jsonify({'status': 'error', 'message': 'Evento não encontrado'}), 404
+    
+    if request.method == 'PUT':
+        dados = request.json
+
+        try:
+            data = datetime.strptime(dados.get('data'), '%Y-%m-%d').date() if dados.get('data') else None
+            inicio = datetime.strptime(dados.get('horario_inicio'), '%H:%M').time() if dados.get('horario_inicio') else None
+            fim = datetime.strptime(dados.get('horario_fim'), '%H:%M').time() if dados.get('horario_fim') else None
+
+            novo_evento = {
+                'id': evento.id,
+                'titulo': dados.get('titulo'),
+                'descricao': dados.get('descricao'),
+                'data': data,
+                'horario_inicio': inicio,
+                'horario_fim': fim
+            }
+
+            eventoDAO.editar(novo_evento)
+            return jsonify({'status': 'success', 'message': 'Evento atualizado com sucesso!'}), 200
+        except Exception as erro:
+            return jsonify({'status': 'error', 'message': str(erro)}), 400
+
+    elif request.method == 'DELETE':
+        try:
+            eventoDAO.excluir(id)
+            return jsonify({'status': 'success', 'message': 'Evento excluído com sucesso!'}), 200
+        except Exception as erro:
+            return jsonify({'status': 'error', 'message': str(erro)}), 400
 
 @home.route('/tarefas')
 @login_required

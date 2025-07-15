@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
 
+    let eventoSelecionado = null //guarda os dados do evento clicado
+    let modoEdicao = false
     var modalEventoEl = document.getElementById('staticBackdrop');
 
     // Cria uma instância do modal do Bootstrap a partir do elemento selecionado, permite abrir, fechar e controlar o modal pelo JS
@@ -13,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('horario_inicio').value = '';
         document.getElementById('horario_fim').value = '';
 
+        modoEdicao = false
         modalEvento.show();
         }
 
@@ -39,16 +42,27 @@ document.addEventListener('DOMContentLoaded', function() {
             abrirModalCriarEvento(info.dateStr);
         },
         eventClick: function(info) {
-            alert('Inside Clicked on: ' + info.dateStr);
-            // Se clicou em um evento
-            abrirModalVerEvento(info.event);
+            //Ao clicar no evento pega os dados e mostra
+
+            eventoSelecionado = info.event //salvo o evento para usar depois
+            const evento = info.event.extendedProps;
+
+            document.getElementById('visualizarTitulo').textContent = info.event.title;
+            document.getElementById('visualizarDescricao').textContent = evento.descricao || '(sem descrição)';
+            document.getElementById('visualizarData').textContent = evento.data || '(sem data)';
+            document.getElementById('visualizarInicio').textContent = evento.horario_inicio || '(sem horário)';
+            document.getElementById('visualizarFim').textContent = evento.horario_fim || '(sem horário)';
+
+            const modalVisualizar = new bootstrap.Modal(document.getElementById('modalVisualizarEvento'));
+            modalVisualizar.show();
         },
 
-        events: '/home/calendario/api/eventos'  // sua rota que vai devolver JSON com eventos do usuário
+        events: '/home/calendario/api/eventos'  //rota que vai devolver JSON com eventos do usuário
     });
 
     calendar.render();
 
+    // BOTÃO SALVAR tanto post quanto put
     document.querySelector('.modal-body button.btn-primary').addEventListener('click', function(){
         const titulo = document.getElementById('titulo').value;
         const descricao = document.getElementById('descricao').value;
@@ -64,8 +78,14 @@ document.addEventListener('DOMContentLoaded', function() {
             horario_fim: horario_fim
         }
 
-        fetch(`${window.origin}/home/calendario/api/eventos`, {
-            method: 'POST',
+        const url = modoEdicao
+            ? `${window.origin}/home/calendario/api/eventos/${eventoSelecionado.id}`
+            : `${window.origin}/home/calendario/api/eventos`;
+        
+        const metodo = modoEdicao ? 'PUT' : 'POST';
+
+        fetch(url, {
+            method: metodo,
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -87,8 +107,51 @@ document.addEventListener('DOMContentLoaded', function() {
             };
         })
         .catch(function(erroConexao){
-            console.error('Erro ao criar evento:', erroConexao);
+            console.error('Erro ao salvar evento:', erroConexao);
             alert('Erro de conexão.');
         })
     });
+
+    //DELETE deleta um evento do calendar
+    document.getElementById('btnExcluirEvento').addEventListener('click', function(){
+        if(!eventoSelecionado) return; //Ou seja se for null o evento, só retorna nada
+    
+        fetch(`${window.origin}/home/calendario/api/eventos/${eventoSelecionado.id}`, {
+        method: 'DELETE'
+      })
+        .then(function(respostaHttp){
+            return respostaHttp.json()
+        })
+        .then(function(respostaJson){
+            if(respostaJson.status === 'success'){
+                calendar.refetchEvents()
+                bootstrap.Modal.getInstance(document.getElementById('modalVisualizarEvento')).hide();
+            } else{
+                alert('Erro'+respostaJson.message)
+            }
+        })
+        .catch(function(erroConexao){
+                console.error('Erro ao criar evento:', erroConexao);
+                alert('Erro de conexão.');
+        })
+    })
+
+    // PUT edição do evento
+    document.getElementById('btnEditarEvento').addEventListener('click', function () {
+        if (!eventoSelecionado) return;
+
+        document.getElementById('titulo').value = eventoSelecionado.title;
+        document.getElementById('data').value = eventoSelecionado.extendedProps.data;
+        document.getElementById('descricao').value = eventoSelecionado.extendedProps.descricao || '';
+        document.getElementById('horario_inicio').value = eventoSelecionado.extendedProps.horario_inicio || '';
+        document.getElementById('horario_fim').value = eventoSelecionado.extendedProps.horario_fim || '';
+
+        modoEdicao = true
+
+        //Fecha o modal de visualização
+        bootstrap.Modal.getInstance(document.getElementById('modalVisualizarEvento')).hide();
+
+        //Abre o modal de formulário, no caso o da a edição
+        modalEvento.show();
+    })
 });

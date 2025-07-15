@@ -1,7 +1,7 @@
 /* BODY */
 body {
     background-color: #20232A;
-    color: #F9FAFB;  /* Texto geral mais legível no fundo escuro */
+    color: #F9FAFB;  
 }
 
 /* NAVBAR */
@@ -12,18 +12,18 @@ body {
 /* CALENDAR */  
 
 .fc {
-    background-color: #20232A; /* Fundo do calendário igual ao body */
-    color: #F9FAFB;  /* Texto padrão do calendário */
+    background-color: #20232A;
+    color: #F9FAFB;  
 }
 
 .fc-daygrid-day:hover {
-    background-color: #2C2F36;  /* Um tom mais claro que o fundo para hover */
+    background-color: #2C2F36; 
     cursor: pointer;
     transition: background-color 0.2s ease;
 }
 
 .fc-event {
-    background-color: #3B82F6;  /* Azul de destaque do botão */
+    background-color: #3B82F6; 
     border: none;
     color: white;
     font-weight: 500;
@@ -33,7 +33,7 @@ body {
 
 .fc-col-header-cell {
     background-color: #1F3757;
-    color: #FBBF24;  /* Dourado da identidade visual */
+    color: #FBBF24;  
 }
 
 .fc-col-header-cell a {
@@ -51,4 +51,37 @@ body {
     color: #F9FAFB;
     font-weight: bold;
     text-decoration: none;
+}
+
+/* MODAL */
+.modal-content {
+  background-color: #1F2937; 
+  color: #F9FAFB; 
+  border: 1px solid #374151; 
+}
+
+.btn-close {
+  filter: invert(1);
+}
+
+.modal-content input,
+.modal-content textarea{
+  background-color: #111827; 
+  color: #F9FAFB; 
+  border: 1px solid #374151; 
+  border-radius: 6px;
+  padding: 8px;
+  width: 100%;
+}
+
+.modal-content input:focus,
+.modal-content textarea:focus{
+  outline: none;
+  border-color: #3B82F6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+}
+
+.modal-content input::placeholder,
+.modal-content textarea::placeholder {
+  color: #9CA3AF;
 }
