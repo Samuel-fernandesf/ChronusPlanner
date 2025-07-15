@@ -18,31 +18,29 @@
     {% endif %}
 {% endwith %}
 
-
-<div class="container mt-4 w-75">
-    <h2>Bem-vindo, {{ current_user.nome }}!</h2>
-</div>
-
-<div class="row">
-  <div class="col-md-4">
-    <div class="card bg-dark text-white mb-3">
-      <div class="card-body">
-        <h5 class="card-title">Eventos Hoje</h5>
-        <p class="card-text">Você tem 2 eventos agendados para hoje.</p>
-        <a href="{{ url_for('home.calendario') }}" class="btn btn-outline-light">Ver Calendário</a>
+<div class="container mt-5">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-md-4">
+        <div class="card bg-dark text-white mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Eventos Hoje</h5>
+            <a href="{{ url_for('home.calendario') }}" class="btn btn-outline-light">Ver Calendário</a>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-
-  <div class="col-md-4">
-    <div class="card bg-primary text-white mb-3">
-      <div class="card-body">
-        <h5 class="card-title">Tarefas Pendentes</h5>
-        <p class="card-text">3 tarefas aguardando finalização.</p>
-        <a href="{{ url_for('home.tarefas') }}" class="btn btn-outline-light">Ver Tarefas</a>
+    
+      <div class="col-md-4">
+        <div class="card bg-primary text-white mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Tarefas Pendentes</h5>
+            <a href="{{ url_for('home.tarefas') }}" class="btn btn-outline-light">Ver Tarefas</a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
+
 
 {% endblock conteudo %}
