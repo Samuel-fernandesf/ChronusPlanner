@@ -36,7 +36,7 @@
 ChronusPlanner/  
 ├── app/  
 │ ├── init.py  
-| |── forms.py  
+│ ├── forms.py  
 │ ├── models/  
 │ ├── routes/  
 │ ├── forms/  
