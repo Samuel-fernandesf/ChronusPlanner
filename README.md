@@ -33,18 +33,18 @@
 
 ## 🗂️ Estrutura de Pastas
 
-ChronusPlanner/
-├── app/
-│ ├── init.py
-| |── forms.py
-│ ├── models/
-│ ├── routes/
-│ ├── forms/
-│ ├── templates/
-│ ├── static/
-├── index.py
-├── requirements.txt
-└── README.md
+ChronusPlanner/  
+├── app/  
+│ ├── init.py  
+| |── forms.py  
+│ ├── models/  
+│ ├── routes/  
+│ ├── forms/  
+│ ├── templates/  
+│ ├── static/  
+├── index.py  
+├── requirements.txt  
+└── README.md  
 
 
 ---
