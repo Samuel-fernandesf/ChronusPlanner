@@ -36,13 +36,13 @@
 ChronusPlanner/
 ├── app/
 │ ├── init.py
+| |── forms.py
 │ ├── models/
 │ ├── routes/
 │ ├── forms/
 │ ├── templates/
 │ ├── static/
-├── run.py
-├── config.py
+├── index.py
 ├── requirements.txt
 └── README.md
 
@@ -66,4 +66,4 @@ source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 
 # Execute o projeto
-python run.py
+python index.py
